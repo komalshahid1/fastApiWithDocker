@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "⏳ Waiting for MySQL..."
-until nc -z db 3306; do
+while ! nc -z "$DB_HOST" 3306; do
   sleep 1
 done
 

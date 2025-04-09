@@ -28,4 +28,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @app.get("/users", response_model=list[schemas.UserResponse])
 def get_users(db: Session = Depends(get_db)):
-    return db.query(models.User).all()
+    try:
+        return db.query(models.User).all()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

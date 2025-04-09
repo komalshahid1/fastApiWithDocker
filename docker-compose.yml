@@ -9,20 +9,4 @@ services:
       - ./app:/app/app
     env_file:
       - .env
-    depends_on:
-      - db
 
-  db:
-    image: mysql:8
-    container_name: client_db
-    restart: always
-    environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-
-volumes:
-  db_data:
