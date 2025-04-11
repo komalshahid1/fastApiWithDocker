@@ -9,6 +9,11 @@ models.UserEducation.__table__.create(bind=engine, checkfirst=True)
 
 app = FastAPI()
 
+@app.get("/")
+def root():
+    return {"service": "education"}
+
+
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}

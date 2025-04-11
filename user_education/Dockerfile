@@ -17,4 +17,6 @@ RUN chmod +x start.sh
 
 RUN ls
 
+EXPOSE 8000
+
 CMD ["sh", "./start.sh"] 
