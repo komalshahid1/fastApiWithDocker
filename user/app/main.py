@@ -4,6 +4,7 @@ from . import models, schemas
 from .database import SessionLocal, engine
 from app.schemas import UserResponse
 from .models import User 
+from python_helpers.validators import is_valid_email
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -22,6 +23,8 @@ def get_db():
 
 @app.post("/user", response_model=schemas.UserResponse)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    if not is_valid_email(user.email):
+        raise HTTPException(status_code=400, detail="Invalid email format")
     existing = db.query(models.User).filter_by(email=user.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email already exists")
