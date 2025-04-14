@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Example</title>
+</head>
+<body>
+  <h1>WebSocket Chat</h1>
+  <input type="text" id="messageText" placeholder="Type a message..." />
+  <button id="sendBtn">Send</button>
+  <ul id="messages"></ul>
+
+  <script>
+    let socket;
+
+    function sendMessage() {
+      const input = document.getElementById("messageText");
+      socket.send(input.value);
+      input.value = '';
+    }
+
+    window.onload = () => {
+      socket = new WebSocket("ws://localhost:8080/socket/ws");
+
+      socket.onmessage = function (event) {
+        const messages = document.getElementById("messages");
+        const message = document.createElement("li");
+        message.textContent = event.data;
+        messages.appendChild(message);
+      };
+
+      // ✅ Make sure the button exists before binding
+      const sendBtn = document.getElementById("sendBtn");
+      if (sendBtn) {
+        sendBtn.onclick = sendMessage;
+      }
+    };
+  </script>
+</body>
+</html>
+

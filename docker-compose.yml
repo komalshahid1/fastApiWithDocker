@@ -33,7 +33,12 @@ services:
     networks:
       - mynetwork
 
-
+  socket_service:
+    build:
+      context: ./socket_service
+      dockerfile: Dockerfile
+    networks:
+      - mynetwork
 
   nginx:
     image: nginx:latest
@@ -45,6 +50,7 @@ services:
     depends_on:
       - user_service
       - user_education_service
+      - socket_service
     networks:
       - mynetwork
 
