@@ -1,6 +1,8 @@
 services:
   user_service:
-    build: ./user
+    build:
+      context: .                          # ✅ Set build context to project root
+      dockerfile: user/Dockerfile 
     # container_name: user_service ❌ Remove this when using replicas
     # ports:
     #   - "8001:8001"

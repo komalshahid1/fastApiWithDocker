@@ -5,5 +5,5 @@ pymysql
 alembic
 pydantic[email]
 python-dotenv
-git+https://github.com/komalshahid1/PythonHelper.git@main
+
 

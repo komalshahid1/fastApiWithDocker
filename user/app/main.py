@@ -4,7 +4,7 @@ from . import models, schemas
 from .database import SessionLocal, engine
 from app.schemas import UserResponse
 from .models import User 
-from python_helpers.validators import is_valid_email
+from python_helpers.validators  import is_valid_email
 
 models.Base.metadata.create_all(bind=engine)
 
