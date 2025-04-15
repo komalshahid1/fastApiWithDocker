@@ -26,7 +26,7 @@ import requests
 @app.post("/user-education", response_model=schemas.UserEducation)
 def create_user_education(user_education: schemas.UserEducationCreate, db: Session = Depends(get_db)):
     # Make API call to user service
-    user_service_url = f"http://client_service:8001/users/{user_education.user_id}"
+    user_service_url = f"http://nginx/user/users/{user_education.user_id}"
     response = requests.get(user_service_url)
 
     if response.status_code != 200:

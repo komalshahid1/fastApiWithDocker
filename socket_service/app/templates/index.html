@@ -21,12 +21,27 @@
     window.onload = () => {
       socket = new WebSocket("ws://localhost:8080/socket/ws");
 
+
+      socket.onopen = () => {
+            console.log("✅ WebSocket connected");
+        };
+
+
       socket.onmessage = function (event) {
+        console.log("📨 Message received:", event.data); // <== You should see it here
         const messages = document.getElementById("messages");
         const message = document.createElement("li");
         message.textContent = event.data;
         messages.appendChild(message);
       };
+
+      socket.onerror = function(e) {
+            console.error("❌ WebSocket error:", e);
+        };
+
+        socket.onclose = () => {
+            console.warn("⚠️ WebSocket closed");
+        };
 
       // ✅ Make sure the button exists before binding
       const sendBtn = document.getElementById("sendBtn");

@@ -5,6 +5,7 @@ from .database import SessionLocal, engine
 from app.schemas import UserResponse
 from .models import User 
 from python_helpers.validators  import is_valid_email
+import httpx
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -33,6 +34,21 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
+    try:
+        response = httpx.post(
+            "http://nginx/socket/notify",
+            json={"message": f"User created: {user.email}"},
+            timeout=5
+        )
+        response.raise_for_status()
+        print("✅ WebSocket notification sent:", response.text)
+    except httpx.RequestError as e:
+        print("❌ Request error sending WS notification:", repr(e))
+    except httpx.HTTPStatusError as e:
+        print("❌ HTTP error from WS notification:", repr(e))
+    except Exception as e:
+        print("❌ Unexpected WS error:", repr(e))
+
     return new_user
 
 @app.get("/users", response_model=list[schemas.UserResponse])
